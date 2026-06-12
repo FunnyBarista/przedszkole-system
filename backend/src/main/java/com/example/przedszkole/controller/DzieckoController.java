@@ -1,6 +1,7 @@
 package com.example.przedszkole.controller;
 
 import com.example.przedszkole.dto.DzieckoPodgladResponse;
+import com.example.przedszkole.dto.DzieckoStatusRequest;
 import com.example.przedszkole.model.Dziecko;
 import com.example.przedszkole.service.DzieckoService;
 import org.springframework.security.core.Authentication;
@@ -43,6 +44,16 @@ public class DzieckoController {
     @GetMapping("/admin/dzieci/podglad")
     public List<DzieckoPodgladResponse> listaDzieciZRodzicami() {
         return dzieckoService.findAllPodglad();
+    }
+
+    @GetMapping("/dzieci/podglad")
+    public List<DzieckoPodgladResponse> listaDzieciDlaPracownikow() {
+        return dzieckoService.findAllPodglad();
+    }
+
+    @PutMapping("/dzieci/{id}/status")
+    public DzieckoPodgladResponse zmienStatusPobytu(@PathVariable Long id, @RequestBody DzieckoStatusRequest request) {
+        return new DzieckoPodgladResponse(dzieckoService.updateStatusPobytu(id, request.getStatusPobytu()));
     }
 
     @GetMapping("/admin/dzieci/{id}")

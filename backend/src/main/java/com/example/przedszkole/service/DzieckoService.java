@@ -49,6 +49,17 @@ public class DzieckoService {
                 .orElseThrow(() -> new IllegalArgumentException("Dziecko nie istnieje"));
     }
 
+    // Aktualizuje tylko status obecnosci/pobytu dziecka.
+    public Dziecko updateStatusPobytu(Long id, String statusPobytu) {
+        if (statusPobytu == null || statusPobytu.isBlank()) {
+            throw new IllegalArgumentException("Status pobytu nie moze byc pusty");
+        }
+
+        Dziecko dziecko = findById(id);
+        dziecko.setStatus_pobytu(statusPobytu.trim());
+        return dzieckoRepository.save(dziecko);
+    }
+
     // Zapisuje nowe dziecko albo aktualizuje istniejace.
     public Dziecko save(Dziecko dziecko) {
         return dzieckoRepository.save(dziecko);

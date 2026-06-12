@@ -161,12 +161,12 @@ export default function MojeDzieciPage() {
 function statusClass(status = "") {
   const normalized = status.toLowerCase();
 
-  if (normalized.includes("obec")) {
-    return "status-pill present";
-  }
-
   if (normalized.includes("odebrane") || normalized.includes("nieobec")) {
     return "status-pill away";
+  }
+
+  if (normalized.includes("obec")) {
+    return "status-pill present";
   }
 
   return "status-pill";

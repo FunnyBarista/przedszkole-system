@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import KomunikatyPage from "./pages/KomunikatyPage";
 import JadlospisPage from "./pages/JadlospisPage";
 import OsobyPage from "./pages/OsobyPage";
+import ObecnoscPage from "./pages/ObecnoscPage";
 import "./App.css";
 
 function getSession() {
@@ -43,6 +44,16 @@ function RequireAdmin({ children }) {
   return children;
 }
 
+function RequireStaff({ children }) {
+  const session = getSession();
+
+  if (!session || !["NAUCZYCIEL", "DYREKCJA", "ADMIN"].includes(session.rola)) {
+    return <Navigate to="/panel" replace />;
+  }
+
+  return children;
+}
+
 function AppShell({ children }) {
   const location = useLocation();
   const session = getSession();
@@ -64,6 +75,9 @@ function AppShell({ children }) {
 
         <nav className="side-nav">
           <Link to="/panel">Moje dzieci</Link>
+          {session && ["NAUCZYCIEL", "DYREKCJA", "ADMIN"].includes(session.rola) && (
+            <Link to="/obecnosc">Obecnosc</Link>
+          )}
           <Link to="/komunikaty">Komunikaty</Link>
           <Link to="/jadlospis">Jadlospis</Link>
           {session && ["ADMIN", "DYREKCJA"].includes(session.rola) && (
@@ -102,6 +116,14 @@ export default function App() {
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/komunikaty" element={<KomunikatyPage />} />
           <Route path="/jadlospis" element={<JadlospisPage />} />
+          <Route
+            path="/obecnosc"
+            element={
+              <RequireStaff>
+                <ObecnoscPage />
+              </RequireStaff>
+            }
+          />
           <Route
             path="/osoby"
             element={

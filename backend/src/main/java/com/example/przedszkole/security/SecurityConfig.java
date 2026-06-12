@@ -71,6 +71,10 @@ public class SecurityConfig {
                                 .hasAnyRole("NAUCZYCIEL", "DYREKCJA", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/rodzice/*/dzieci")
                                 .hasAnyRole("RODZIC", "NAUCZYCIEL", "DYREKCJA", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/dzieci/podglad")
+                                .hasAnyRole("NAUCZYCIEL", "DYREKCJA", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/dzieci/*/status")
+                                .hasAnyRole("NAUCZYCIEL", "DYREKCJA", "ADMIN")
                         // Zarzadzanie rodzicami jest ograniczone do dyrekcji i administratora.
                         .requestMatchers(HttpMethod.GET, "/api/rodzice/**")
                                 .hasAnyRole("DYREKCJA", "ADMIN")
